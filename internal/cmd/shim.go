@@ -5,6 +5,7 @@ import (
 
 	"github.com/kyleconroy/sqlc/internal/compiler"
 	"github.com/kyleconroy/sqlc/internal/config"
+	"github.com/kyleconroy/sqlc/internal/info"
 	"github.com/kyleconroy/sqlc/internal/plugin"
 	"github.com/kyleconroy/sqlc/internal/sql/catalog"
 )
@@ -68,6 +69,7 @@ func pluginPythonCode(s config.SQLPython) *plugin.PythonCode {
 		EmitExactTableNames: s.EmitExactTableNames,
 		EmitSyncQuerier:     s.EmitSyncQuerier,
 		EmitAsyncQuerier:    s.EmitAsyncQuerier,
+		EmitPydanticModels:  s.EmitPydanticModels,
 	}
 }
 
@@ -274,8 +276,9 @@ func pluginQueryParam(p compiler.Parameter) *plugin.Parameter {
 
 func codeGenRequest(r *compiler.Result, settings config.CombinedSettings) *plugin.CodeGenRequest {
 	return &plugin.CodeGenRequest{
-		Settings: pluginSettings(settings),
-		Catalog:  pluginCatalog(r.Catalog),
-		Queries:  pluginQueries(r),
+		Settings:    pluginSettings(settings),
+		Catalog:     pluginCatalog(r.Catalog),
+		Queries:     pluginQueries(r),
+		SqlcVersion: info.Version,
 	}
 }

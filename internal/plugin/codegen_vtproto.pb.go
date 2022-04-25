@@ -433,6 +433,16 @@ func (m *PythonCode) MarshalToSizedBufferVT(dAtA []byte) (int, error) {
 		i -= len(m.unknownFields)
 		copy(dAtA[i:], m.unknownFields)
 	}
+	if m.EmitPydanticModels {
+		i--
+		if m.EmitPydanticModels {
+			dAtA[i] = 1
+		} else {
+			dAtA[i] = 0
+		}
+		i--
+		dAtA[i] = 0x30
+	}
 	if len(m.Out) > 0 {
 		i -= len(m.Out)
 		copy(dAtA[i:], m.Out)
@@ -1408,6 +1418,13 @@ func (m *CodeGenRequest) MarshalToSizedBufferVT(dAtA []byte) (int, error) {
 		i -= len(m.unknownFields)
 		copy(dAtA[i:], m.unknownFields)
 	}
+	if len(m.SqlcVersion) > 0 {
+		i -= len(m.SqlcVersion)
+		copy(dAtA[i:], m.SqlcVersion)
+		i = encodeVarint(dAtA, i, uint64(len(m.SqlcVersion)))
+		i--
+		dAtA[i] = 0x22
+	}
 	if len(m.Queries) > 0 {
 		for iNdEx := len(m.Queries) - 1; iNdEx >= 0; iNdEx-- {
 			size, err := m.Queries[iNdEx].MarshalToSizedBufferVT(dAtA[:i])
@@ -1689,6 +1706,9 @@ func (m *PythonCode) SizeVT() (n int) {
 	l = len(m.Out)
 	if l > 0 {
 		n += 1 + l + sov(uint64(l))
+	}
+	if m.EmitPydanticModels {
+		n += 2
 	}
 	if m.unknownFields != nil {
 		n += len(m.unknownFields)
@@ -2096,6 +2116,10 @@ func (m *CodeGenRequest) SizeVT() (n int) {
 			l = e.SizeVT()
 			n += 1 + l + sov(uint64(l))
 		}
+	}
+	l = len(m.SqlcVersion)
+	if l > 0 {
+		n += 1 + l + sov(uint64(l))
 	}
 	if m.unknownFields != nil {
 		n += len(m.unknownFields)
@@ -3434,6 +3458,26 @@ func (m *PythonCode) UnmarshalVT(dAtA []byte) error {
 			}
 			m.Out = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
+		case 6:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field EmitPydanticModels", wireType)
+			}
+			var v int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				v |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.EmitPydanticModels = bool(v != 0)
 		default:
 			iNdEx = preIndex
 			skippy, err := skip(dAtA[iNdEx:])
@@ -5963,6 +6007,38 @@ func (m *CodeGenRequest) UnmarshalVT(dAtA []byte) error {
 			if err := m.Queries[len(m.Queries)-1].UnmarshalVT(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
+			iNdEx = postIndex
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field SqlcVersion", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLength
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLength
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.SqlcVersion = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
