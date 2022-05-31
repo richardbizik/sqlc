@@ -45,10 +45,11 @@ func validateCopyfrom(n ast.Node) error {
 }
 
 func validateBatch(n ast.Node) error {
-	nums, _, _ := ParamRef(n)
-	if len(nums) == 0 {
-		return errors.New(":batch* commands require parameters")
-	}
+	// ignore this validation to make @name collumn annotation work...validations still work
+	// nums, _, _ := ParamRef(n)
+	// if len(nums) == 0 {
+	// 	return errors.New(":batch* commands require parameters")
+	// }
 	return nil
 }
 
