@@ -114,6 +114,7 @@ type SQLGen struct {
 	Go     *SQLGo     `json:"go,omitempty" yaml:"go"`
 	Kotlin *SQLKotlin `json:"kotlin,omitempty" yaml:"kotlin"`
 	Python *SQLPython `json:"python,omitempty" yaml:"python"`
+	JSON   *SQLJSON   `json:"json,omitempty" yaml:"json"`
 }
 
 type SQLGo struct {
@@ -127,6 +128,8 @@ type SQLGo struct {
 	EmitResultStructPointers  bool              `json:"emit_result_struct_pointers" yaml:"emit_result_struct_pointers"`
 	EmitParamsStructPointers  bool              `json:"emit_params_struct_pointers" yaml:"emit_params_struct_pointers"`
 	EmitMethodsWithDBArgument bool              `json:"emit_methods_with_db_argument,omitempty" yaml:"emit_methods_with_db_argument"`
+	EmitEnumValidMethod       bool              `json:"emit_enum_valid_method,omitempty" yaml:"emit_enum_valid_method"`
+	EmitAllEnumValues         bool              `json:"emit_all_enum_values,omitempty" yaml:"emit_all_enum_values"`
 	JSONTagsCaseStyle         string            `json:"json_tags_case_style,omitempty" yaml:"json_tags_case_style"`
 	Package                   string            `json:"package" yaml:"package"`
 	Out                       string            `json:"out" yaml:"out"`
@@ -153,6 +156,11 @@ type SQLPython struct {
 	Out                 string     `json:"out" yaml:"out"`
 	Overrides           []Override `json:"overrides,omitempty" yaml:"overrides"`
 	EmitPydanticModels  bool       `json:"emit_pydantic_models,omitempty" yaml:"emit_pydantic_models"`
+}
+
+type SQLJSON struct {
+	Out    string `json:"out" yaml:"out"`
+	Indent string `json:"indent,omitempty" yaml:"indent"`
 }
 
 type Override struct {
@@ -352,6 +360,7 @@ type CombinedSettings struct {
 	Go        SQLGo
 	Kotlin    SQLKotlin
 	Python    SQLPython
+	JSON      SQLJSON
 	Rename    map[string]string
 	Overrides []Override
 }
@@ -378,6 +387,9 @@ func Combine(conf Config, pkg SQL) CombinedSettings {
 	if pkg.Gen.Python != nil {
 		cs.Python = *pkg.Gen.Python
 		cs.Overrides = append(cs.Overrides, pkg.Gen.Python.Overrides...)
+	}
+	if pkg.Gen.JSON != nil {
+		cs.JSON = *pkg.Gen.JSON
 	}
 	return cs
 }

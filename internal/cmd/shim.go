@@ -59,6 +59,7 @@ func pluginSettings(cs config.CombinedSettings) *plugin.Settings {
 		Python:    pluginPythonCode(cs.Python),
 		Kotlin:    pluginKotlinCode(cs.Kotlin),
 		Go:        pluginGoCode(cs.Go),
+		Json:      pluginJSONCode(cs.JSON),
 	}
 }
 
@@ -85,6 +86,8 @@ func pluginGoCode(s config.SQLGo) *plugin.GoCode {
 		EmitResultStructPointers:  s.EmitResultStructPointers,
 		EmitParamsStructPointers:  s.EmitParamsStructPointers,
 		EmitMethodsWithDbArgument: s.EmitMethodsWithDBArgument,
+		EmitEnumValidMethod:       s.EmitEnumValidMethod,
+		EmitAllEnumValues:         s.EmitAllEnumValues,
 		JsonTagsCaseStyle:         s.JSONTagsCaseStyle,
 		Package:                   s.Package,
 		Out:                       s.Out,
@@ -121,6 +124,13 @@ func pluginKotlinCode(s config.SQLKotlin) *plugin.KotlinCode {
 		Out:                 s.Out,
 		Package:             s.Package,
 		EmitExactTableNames: s.EmitExactTableNames,
+	}
+}
+
+func pluginJSONCode(s config.SQLJSON) *plugin.JSONCode {
+	return &plugin.JSONCode{
+		Out:    s.Out,
+		Indent: s.Indent,
 	}
 }
 

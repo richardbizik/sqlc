@@ -6,11 +6,11 @@ require (
 	github.com/antlr/antlr4/runtime/Go/antlr v0.0.0-20220209173558-ad29539cd2e9
 	github.com/davecgh/go-spew v1.1.1
 	github.com/go-sql-driver/mysql v1.6.0
-	github.com/google/go-cmp v0.5.7
-	github.com/jackc/pgconn v1.12.0
-	github.com/jackc/pgx/v4 v4.16.0
+	github.com/google/go-cmp v0.5.8
+	github.com/jackc/pgconn v1.12.1
+	github.com/jackc/pgx/v4 v4.16.1
 	github.com/jinzhu/inflection v1.0.0
-	github.com/lib/pq v1.10.5
+	github.com/lib/pq v1.10.6
 	github.com/pganalyze/pg_query_go/v2 v2.1.0
 	github.com/pingcap/parser v0.0.0-20210914110036-002913dd28ec
 	github.com/spf13/cobra v1.4.0
@@ -37,6 +37,5 @@ require (
 	go.uber.org/zap v1.19.1 // indirect
 	golang.org/x/crypto v0.0.0-20210817164053-32db794688a5 // indirect
 	golang.org/x/text v0.3.7 // indirect
-	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
 )
